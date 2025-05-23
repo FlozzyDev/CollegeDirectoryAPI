@@ -646,90 +646,90 @@ export default {
           },
         },
       },
-      '/classes/{classId}/students/add': {
-        patch: {
-          summary: 'Add a student to a class',
-          operationId: 'addStudentToClass',
-          tags: ['Classes'],
-          parameters: [
-            {
-              in: 'path',
-              name: 'classId',
-              required: true,
-              schema: { type: 'number' },
-              description: 'Class ID',
-            },
-          ],
-          requestBody: {
+    },
+    '/classes/{classId}/students/add': {
+      patch: {
+        summary: 'Add a student to a class',
+        operationId: 'addStudentToClass',
+        tags: ['Classes'],
+        parameters: [
+          {
+            in: 'path',
+            name: 'classId',
             required: true,
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    studentId: { type: 'number', example: 18 },
-                  },
-                  required: ['studentId'],
-                },
-              },
-            },
+            schema: { type: 'number' },
+            description: 'Class ID',
           },
-          responses: {
-            '200': {
-              description: 'Student added to class',
-              content: {
-                'application/json': {
-                  schema: { $ref: '#/components/schemas/Class' },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  studentId: { type: 'number', example: 2 },
                 },
+                required: ['studentId'],
               },
             },
-            '400': { description: 'Invalid input or class full' },
-            '404': { description: 'Class not found' },
-            '409': { description: 'Student already in class' },
           },
         },
-      },
-      '/classes/{classId}/students/remove': {
-        patch: {
-          summary: 'Remove a student from a class',
-          operationId: 'removeStudentFromClass',
-          tags: ['Classes'],
-          parameters: [
-            {
-              in: 'path',
-              name: 'classId',
-              required: true,
-              schema: { type: 'number' },
-              description: 'Class ID',
-            },
-          ],
-          requestBody: {
-            required: true,
+        responses: {
+          '200': {
+            description: 'Student added to class',
             content: {
               'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    studentId: { type: 'number', example: 18 },
-                  },
-                  required: ['studentId'],
-                },
+                schema: { $ref: '#/components/schemas/Class' },
               },
             },
           },
-          responses: {
-            '200': {
-              description: 'Student removed from class',
-              content: {
-                'application/json': {
-                  schema: { $ref: '#/components/schemas/Class' },
+          '400': { description: 'Invalid input or class full' },
+          '404': { description: 'Class not found' },
+          '409': { description: 'Student already in class' },
+        },
+      },
+    },
+    '/classes/{classId}/students/remove': {
+      patch: {
+        summary: 'Remove a student from a class',
+        operationId: 'removeStudentFromClass',
+        tags: ['Classes'],
+        parameters: [
+          {
+            in: 'path',
+            name: 'classId',
+            required: true,
+            schema: { type: 'number' },
+            description: 'Class ID',
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  studentId: { type: 'number', example: 18 },
                 },
+                required: ['studentId'],
               },
             },
-            '400': { description: 'Invalid input' },
-            '404': { description: 'Class not found' },
-            '409': { description: 'Student not in class' },
           },
+        },
+        responses: {
+          '200': {
+            description: 'Student removed from class',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Class' },
+              },
+            },
+          },
+          '400': { description: 'Invalid input' },
+          '404': { description: 'Class not found' },
+          '409': { description: 'Student not in class' },
         },
       },
     },
