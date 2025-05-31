@@ -8,15 +8,17 @@ import {
   addStudentToClass,
   removeStudentFromClass,
 } from '../controllers/class.controller.js';
+import { validateRequest, validateParams } from '../middleware/validateRequest.js';
+import { classSchema, classIdSchema, addStudentToClassSchema } from '../validationSchema/class.schema.js';
 
 const router = Router();
 
 router.get('/', getAllClasses);
-router.get('/:classId', getClassById);
-router.post('/', createClass);
-router.put('/:classId', updateClass);
-router.delete('/:classId', deleteClass);
-router.patch('/:classId/students/add', addStudentToClass);
-router.patch('/:classId/students/remove', removeStudentFromClass);
+router.get('/:classId', validateParams(classIdSchema), getClassById);
+router.post('/', validateRequest(classSchema), createClass);
+router.put('/:classId', validateParams(classIdSchema), validateRequest(classSchema), updateClass);
+router.delete('/:classId', validateParams(classIdSchema), deleteClass);
+router.patch('/:classId/students/add', validateParams(classIdSchema), validateRequest(addStudentToClassSchema), addStudentToClass);
+router.patch('/:classId/students/remove', validateParams(classIdSchema), validateRequest(addStudentToClassSchema), removeStudentFromClass);
 
 export default router;

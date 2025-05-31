@@ -757,7 +757,7 @@ export default {
           gender: {
             type: 'string',
             description: 'The gender of the student',
-            example: 'Male',
+            example: 'Male, Female or Other',
           },
           email: {
             type: 'string',
