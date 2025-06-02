@@ -32,4 +32,17 @@ passport.use(
   )
 );
 
+passport.serializeUser((user: any, done) => {
+  done(null, user._id || user.id);
+});
+
+passport.deserializeUser(async (id: string, done) => {
+  try {
+    const user = await OAuthUser.findById(id);
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
+});
+
 export default passport; 

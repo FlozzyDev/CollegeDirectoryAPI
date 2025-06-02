@@ -118,3 +118,12 @@ This will be a general list at the start, I may add or remove some as the projec
 - Create a new "users" collection in MongoDB to store our user credentials
 
 * -- Found out we are required to use OAuth, so this is somewhat pointless above. Will be creating a separate auth flow for Google/OAuth.
+
+16. OAuth
+
+- First create a oAuth app in Github (profile > settings > sev settings > new OAuth)
+- Add domain / callback URL and copy client id/secret (add these to ENV and render env)
+- npm install passport (https://www.youtube.com/watch?v=sakQbeRjgwg&list=PL4cUxeGkcC9jdm7QX143aMLAqyM-jTZ2x) / express-session since passport needs it
+- Create the passport config / mongo model for the new Oauth user / OAuth user type (matching Github)
+- Create new MongoDB collection for these users (we will have 2 separate tables, one for users signing in with trad account and one for Oauth)
+-

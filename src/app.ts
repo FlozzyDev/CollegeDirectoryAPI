@@ -5,6 +5,7 @@ import swaggerDocument from './swagger.js';
 import indexRoute from './routes/index.js';
 import cookieParser from 'cookie-parser';
 import passport from './authentication/oAuth/config/passport.config.js';
+import session from 'express-session';
 
 const app = express();
 
@@ -18,8 +19,20 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-// Initialize Passport
+// We have to add this for OAuth to work as the custom session doesn't have the proper logic to handle the exchange
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'wtfakfbkajbtrwhert31!#123',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 15 * 60 * 1000,
+    },
+  })
+);
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', indexRoute);
