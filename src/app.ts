@@ -8,6 +8,7 @@ import passport from './authentication/oAuth/config/passport.config.js';
 import session from 'express-session';
 
 const app = express();
+app.set('trust proxy', 1); // supposedly this is needed for render since it uses proxies
 
 app.use(
   cors({
