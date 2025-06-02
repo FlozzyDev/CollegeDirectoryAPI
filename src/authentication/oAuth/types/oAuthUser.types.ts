@@ -5,6 +5,4 @@ export interface IOAuthUser extends Document {
   email: string;
   username: string;
   displayName: string;
-  profileUrl: string;
-  avatarUrl: string;
 }

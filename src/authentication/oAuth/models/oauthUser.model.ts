@@ -9,25 +9,17 @@ const oauthUserSchema = new Schema<IOAuthUserType & Document>({
   },
   email: {
     type: String,
-    required: true,
+    required: false,
     unique: true,
     lowercase: true,
   },
   username: {
     type: String,
-    required: true,
+    required: false,
   },
   displayName: {
     type: String,
-    required: true,
-  },
-  profileUrl: {
-    type: String,
-    required: true,
-  },
-  avatarUrl: {
-    type: String,
-    required: true,
+    required: false,
   },
 });
 

@@ -13,14 +13,16 @@ passport.use(
       try {
         let user = await OAuthUser.findOne({ githubId: profile.id });
 
+        // The main thing we need is the ID, all else I don't care about for now
         if (!user) {
           user = await OAuthUser.create({
             githubId: profile.id,
-            email: profile.emails[0].value,
-            username: profile.username,
-            displayName: profile.displayName || profile.username,
-            profileUrl: profile.profileUrl,
-            avatarUrl: profile.photos[0].value,
+            username: profile.username || `github_user_${profile.id}`,
+            email:
+              profile.emails && profile.emails.length > 0
+                ? profile.emails[0].value
+                : `github_${profile.id}@placeholder.com`,
+            displayName: profile.displayName || profile.username || `GitHub User ${profile.id}`,
           });
         }
 
@@ -45,4 +47,4 @@ passport.deserializeUser(async (id: string, done) => {
   }
 });
 
-export default passport; 
+export default passport;
