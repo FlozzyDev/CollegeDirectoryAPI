@@ -1,17 +1,13 @@
-import { Request, Response } from "express";
-import Teacher from "../db/models/teacherModel.js";
+import { Request, Response } from 'express';
+import Teacher from '../db/models/teacher.model.js';
 
-
-export const getAllTeachers = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getAllTeachers = async (req: Request, res: Response): Promise<void> => {
   try {
     const teachers = await Teacher.find().sort({ teacherId: 1 });
     if (teachers.length === 0) {
       res.status(404).json({
         success: false,
-        message: "No teachers found",
+        message: 'No teachers found',
       });
       return;
     }
@@ -24,16 +20,13 @@ export const getAllTeachers = async (
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error fetching teachers",
+      message: 'Error fetching teachers',
       error: (error as Error).message,
     });
   }
 };
 
-export const getTeacherById = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getTeacherById = async (req: Request, res: Response): Promise<void> => {
   try {
     const teacherId = parseInt(req.params.teacherId);
     if (!teacherId || teacherId < 1) {
@@ -59,16 +52,13 @@ export const getTeacherById = async (
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error fetching teacher",
+      message: 'Error fetching teacher',
       error: (error as Error).message,
     });
   }
 };
 
-export const createTeacher = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const createTeacher = async (req: Request, res: Response): Promise<void> => {
   try {
     if (!req.body) {
       res.status(400).json({
@@ -95,16 +85,13 @@ export const createTeacher = async (
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error creating teacher",
+      message: 'Error creating teacher',
       error: (error as Error).message,
     });
   }
 };
 
-export const updateTeacher = async (
-    req: Request,
-    res: Response
-): Promise<void> => {
+export const updateTeacher = async (req: Request, res: Response): Promise<void> => {
   try {
     const teacherId = parseInt(req.params.teacherId);
     if (!teacherId || teacherId < 1) {
@@ -128,16 +115,13 @@ export const updateTeacher = async (
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error updating teacher",
+      message: 'Error updating teacher',
       error: (error as Error).message,
     });
   }
 };
 
-export const deleteTeacher = async (
-    req: Request,
-    res: Response
-): Promise<void> => {
+export const deleteTeacher = async (req: Request, res: Response): Promise<void> => {
   try {
     const teacherId = parseInt(req.params.teacherId);
     if (!teacherId) {
@@ -152,7 +136,7 @@ export const deleteTeacher = async (
       res.status(404).json({
         success: false,
         message: `Could not find teacher with ID ${teacherId}`,
-      }); 
+      });
       return;
     }
     res.status(200).json({
@@ -162,7 +146,7 @@ export const deleteTeacher = async (
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error deleting teacher",
+      message: 'Error deleting teacher',
       error: (error as Error).message,
     });
   }

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Class from '../db/models/classModel.js';
+import Class from '../db/models/class.model.js';
 import { Semester } from '../types/index.js';
 
 export const getAllClasses = async (req: Request, res: Response): Promise<void> => {

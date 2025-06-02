@@ -110,3 +110,11 @@ This will be a general list at the start, I may add or remove some as the projec
 - npm install swagger-ui-express && @types/swagger-ui-express
 - Either use swagger-autocomplete and manually create a swagger.JSON file
 - https://swagger.io/docs/specification/v2_0/basic-structure/
+
+15. Auth
+
+- For auth, we are using email/passwords and we will be using sessions.
+- Create an Auth folder to store everything inside
+- Create a new "users" collection in MongoDB to store our user credentials
+
+* -- Found out we are required to use OAuth, so this is somewhat pointless above. Will be creating a separate auth flow for Google/OAuth.

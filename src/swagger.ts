@@ -16,6 +16,158 @@ export default {
     },
   ],
   paths: {
+    '/auth/createAccount': {
+      post: {
+        summary: 'Create a new user account',
+        operationId: 'createUser',
+        tags: ['Authentication'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/UserAuthInput',
+              },
+            },
+          },
+        },
+        responses: {
+          '201': {
+            description: 'User account created successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean', example: true },
+                    message: { type: 'string', example: 'New user created for user@example.com' },
+                  },
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Email and password are required',
+          },
+          '409': {
+            description: 'User already exists with this email',
+          },
+          '500': {
+            description: 'Error creating user',
+          },
+        },
+      },
+    },
+    '/auth/login': {
+      post: {
+        summary: 'Login to user account',
+        operationId: 'loginUser',
+        tags: ['Authentication'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/UserAuthInput',
+              },
+            },
+          },
+        },
+        responses: {
+          '200': {
+            description: 'User logged in successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean', example: true },
+                    message: { type: 'string', example: 'User logged in successfully' },
+                  },
+                },
+              },
+            },
+          },
+          '401': {
+            description: 'Invalid email or password',
+          },
+          '500': {
+            description: 'Error logging in',
+          },
+        },
+      },
+    },
+    '/auth/logout': {
+      post: {
+        summary: 'Logout from user account',
+        operationId: 'logoutUser',
+        tags: ['Authentication'],
+        security: [{ sessionAuth: [] }],
+        responses: {
+          '200': {
+            description: 'User logged out successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean', example: true },
+                    message: { type: 'string', example: 'User logged out successfully' },
+                  },
+                },
+              },
+            },
+          },
+          '401': {
+            description: 'Please login first',
+          },
+          '500': {
+            description: 'Error logging out',
+          },
+        },
+      },
+    },
+    '/auth/oauth/github': {
+      get: {
+        summary: 'Initiate GitHub OAuth login',
+        description: 'Redirects the user to GitHub for authentication. No request body required.',
+        tags: ['Authentication'],
+        responses: {
+          '302': {
+            description: 'Redirect to GitHub for authentication',
+          },
+        },
+      },
+    },
+    '/auth/oauth/github/callback': {
+      get: {
+        summary: 'GitHub OAuth callback',
+        description: 'Handles the OAuth callback from GitHub, creates a session, and returns a success message. This route is called by GitHub after user authentication.',
+        tags: ['Authentication'],
+        responses: {
+          '200': {
+            description: 'Successfully authenticated with GitHub',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean', example: true },
+                    message: { type: 'string', example: 'Successfully authenticated with GitHub' },
+                  },
+                },
+              },
+            },
+          },
+          '401': {
+            description: 'Authentication failed',
+          },
+          '500': {
+            description: 'Error during authentication',
+          },
+        },
+      },
+    },
     '/students': {
       get: {
         summary: 'Get all students',
@@ -735,6 +887,14 @@ export default {
     },
   },
   components: {
+    securitySchemes: {
+      sessionAuth: {
+        type: 'apiKey',
+        in: 'cookie',
+        name: 'connect.sid',
+        description: 'Session cookie for authentication',
+      },
+    },
     schemas: {
       Student: {
         type: 'object',
@@ -1020,6 +1180,24 @@ export default {
             type: 'number',
             description: 'The number of seats available in the class',
             example: 30,
+          },
+        },
+      },
+      UserAuthInput: {
+        type: 'object',
+        required: ['email', 'password'],
+        properties: {
+          email: {
+            type: 'string',
+            format: 'email',
+            description: 'The email of the user',
+            example: 'user@example.com',
+          },
+          password: {
+            type: 'string',
+            format: 'password',
+            description: 'The password of the user',
+            example: 'password123',
           },
         },
       },
