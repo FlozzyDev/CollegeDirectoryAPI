@@ -4,12 +4,8 @@ import {
   userAuthValSchema,
   validateLogin,
   requireAuth,
-} from '../validation/userAuth.validation';
-import {
-  createUser,
-  loginUser,
-  logoutUser,
-} from '../controllers/userAuth.controller.js';
+} from '../validation/userAuth.validation.js';
+import { createUser, loginUser, logoutUser } from '../controllers/userAuth.controller.js';
 
 const router = Router();
 
