@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User from '../models/userAuth.model';
+import User from '../models/userAuth.model.js';
 import bcrypt from 'bcrypt';
 import { createSession, getSession, deleteSession } from '../../services/session.services.js';
 
