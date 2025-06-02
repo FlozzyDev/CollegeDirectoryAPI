@@ -8,11 +8,17 @@ import passport from './authentication/oAuth/config/passport.config.js';
 import session from 'express-session';
 
 const app = express();
-app.set('trust proxy', 1); // supposedly this is needed for render since it uses proxies
+app.set('trust proxy', 1); // needed for both render and local development
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+const allowedOrigins = isProduction 
+  ? ['https://collegedirectoryapi.onrender.com']
+  : ['http://localhost:3000'];
 
 app.use(
   cors({
-    origin: ['https://collegedirectoryapi.onrender.com', 'http://localhost:3000'],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
@@ -20,19 +26,20 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-// We have to add this for OAuth to work as the custom session doesn't have the proper logic to handle the exchange
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'wtfakfbkajbtrwhert31!#123',
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: true,
+      secure: isProduction, // Only use secure cookies in production, need to test locally
       httpOnly: true,
       maxAge: 15 * 60 * 1000,
+      sameSite: isProduction ? 'none' : 'lax',
     },
   })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 

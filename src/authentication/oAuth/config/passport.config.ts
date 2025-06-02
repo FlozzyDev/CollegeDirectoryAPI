@@ -2,15 +2,39 @@ import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import OAuthUser from '../models/oauthUser.model.js';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
+const clientID = isProduction
+  ? process.env.GITHUB_CLIENT_ID!
+  : process.env.DEV_GITHUB_CLIENT_ID!;
+
+const clientSecret = isProduction
+  ? process.env.GITHUB_CLIENT_SECRET!
+  : process.env.DEV_GITHUB_CLIENT_SECRET!;
+
+const callbackURL = isProduction
+  ? process.env.CALLBACK_URL!
+  : process.env.DEV_CALLBACK_URL!;
+
+const baseUrl = isProduction 
+  ? 'https://collegedirectoryapi.onrender.com'
+  : 'http://localhost:3000';
+
 passport.use(
   new GitHubStrategy(
     {
-      clientID: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-      callbackURL: process.env.CALLBACK_URL!,
+      clientID,
+      clientSecret,
+      callbackURL,
     },
     async (accessToken: string, refreshToken: string, profile: any, done: any) => {
       try {
+        console.log('GitHub OAuth callback info:', { //debug info
+          profileId: profile.id,
+          username: profile.username,
+          hasEmails: !!profile.emails,
+        });
+
         let user = await OAuthUser.findOne({ githubId: profile.id });
 
         // The main thing we need is the ID, all else I don't care about for now
@@ -28,6 +52,7 @@ passport.use(
 
         return done(null, user);
       } catch (error) {
+        console.error('Error in GitHub OAuth callback:', error);
         return done(error, null);
       }
     }
