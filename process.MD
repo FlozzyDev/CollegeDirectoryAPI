@@ -124,6 +124,7 @@ This will be a general list at the start, I may add or remove some as the projec
 - First create a oAuth app in Github (profile > settings > sev settings > new OAuth)
 - Add domain / callback URL and copy client id/secret (add these to ENV and render env)
 - npm install passport (https://www.youtube.com/watch?v=sakQbeRjgwg&list=PL4cUxeGkcC9jdm7QX143aMLAqyM-jTZ2x) / express-session since passport needs it
-- Create the passport config / mongo model for the new Oauth user / OAuth user type (matching Github)
+- Create the passport config / mongo model for the new Oauth user / OAuth user type (matching Github) - I made only the ID required for now
 - Create new MongoDB collection for these users (we will have 2 separate tables, one for users signing in with trad account and one for Oauth)
--
+- Add express-session logic to the app as it's needed for OAuth. Technically I should just commit to only using it, but I wanted to keep my own session logic I made for the user accounts. It seems to be working fine.
+
