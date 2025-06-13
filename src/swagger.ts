@@ -199,6 +199,7 @@ export default {
         summary: 'Create a new student',
         operationId: 'createStudent',
         tags: ['Students'],
+        security: [{ sessionAuth: [] }],
         requestBody: {
           required: true,
           content: {
@@ -267,6 +268,7 @@ export default {
         summary: 'Update a student',
         operationId: 'updateStudent',
         tags: ['Students'],
+        security: [{ sessionAuth: [] }],
         parameters: [
           {
             in: 'path',
@@ -307,6 +309,7 @@ export default {
         summary: 'Delete a student',
         operationId: 'deleteStudent',
         tags: ['Students'],
+        security: [{ sessionAuth: [] }],
         parameters: [
           {
             in: 'path',
@@ -365,6 +368,7 @@ export default {
         summary: 'Create a new teacher',
         operationId: 'createTeacher',
         tags: ['Teachers'],
+        security: [{ sessionAuth: [] }],
         requestBody: {
           required: true,
           content: {
@@ -433,6 +437,7 @@ export default {
         summary: 'Update a teacher',
         operationId: 'updateTeacher',
         tags: ['Teachers'],
+        security: [{ sessionAuth: [] }],
         parameters: [
           {
             in: 'path',
@@ -473,6 +478,7 @@ export default {
         summary: 'Delete a teacher',
         operationId: 'deleteTeacher',
         tags: ['Teachers'],
+        security: [{ sessionAuth: [] }],
         parameters: [
           {
             in: 'path',
@@ -531,6 +537,7 @@ export default {
         summary: 'Create a new course',
         operationId: 'createCourse',
         tags: ['Courses'],
+        security: [{ sessionAuth: [] }],
         requestBody: {
           required: true,
           content: {
@@ -596,6 +603,7 @@ export default {
         summary: 'Update a course',
         operationId: 'updateCourse',
         tags: ['Courses'],
+        security: [{ sessionAuth: [] }],
         parameters: [
           {
             in: 'path',
@@ -636,6 +644,7 @@ export default {
         summary: 'Delete a course',
         operationId: 'deleteCourse',
         tags: ['Courses'],
+        security: [{ sessionAuth: [] }],
         parameters: [
           {
             in: 'path',
@@ -688,6 +697,7 @@ export default {
         summary: 'Create a new class',
         operationId: 'createClass',
         tags: ['Classes'],
+        security: [{ sessionAuth: [] }],
         requestBody: {
           required: true,
           content: {
@@ -744,6 +754,7 @@ export default {
         summary: 'Update a class',
         operationId: 'updateClass',
         tags: ['Classes'],
+        security: [{ sessionAuth: [] }],
         parameters: [
           {
             in: 'path',
@@ -778,6 +789,7 @@ export default {
         summary: 'Delete a class',
         operationId: 'deleteClass',
         tags: ['Classes'],
+        security: [{ sessionAuth: [] }],
         parameters: [
           {
             in: 'path',
@@ -804,6 +816,7 @@ export default {
         summary: 'Add a student to a class',
         operationId: 'addStudentToClass',
         tags: ['Classes'],
+        security: [{ sessionAuth: [] }],
         parameters: [
           {
             in: 'path',
@@ -847,6 +860,7 @@ export default {
         summary: 'Remove a student from a class',
         operationId: 'removeStudentFromClass',
         tags: ['Classes'],
+        security: [{ sessionAuth: [] }],
         parameters: [
           {
             in: 'path',
@@ -891,9 +905,22 @@ export default {
       sessionAuth: {
         type: 'apiKey',
         in: 'cookie',
-        name: 'connect.sid',
+        name: 'sessionId',
         description: 'Session cookie for authentication',
       },
+      githubOAuth: {
+        type: 'oauth2',
+        description: 'GitHub OAuth 2.0 authentication flow',
+        flows: {
+          authorizationCode: {
+            authorizationUrl: 'https://github.com/login/oauth/authorize',
+            tokenUrl: 'https://github.com/login/oauth/access_token',
+            scopes: {
+              'user:email': 'Access user email address from GitHub profile'
+            }
+          }
+        }
+      }
     },
     schemas: {
       Student: {
